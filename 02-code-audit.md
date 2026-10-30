@@ -22,12 +22,20 @@ SEARCH FOR ALL OF THESE PATTERNS (adapt to every language actually present in th
 - Ruby: `verify_mode: OpenSSL::SSL::VERIFY_NONE`.
 - Rust: `danger_accept_invalid_certs(true)`.
 - Shell / CI / Docker: `curl -k` / `--insecure`, `wget --no-check-certificate`, `GIT_SSL_NO_VERIFY`, `npm config set strict-ssl false`, `pip install --trusted-host`, any exported env var disabling verification.
+- PARTIAL WEAKENING (verification still on, but TLS is degraded — the 2026 baseline bans SSL and TLS 1.0/1.1): `minVersion: 'TLSv1'` / `'TLSv1.1'`, `secureProtocol: 'TLSv1_method'` (or any legacy method), `secureOptions` containing `SSL_OP_LEGACY_SERVER_CONNECT` or `SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION`, cipher strings with `@SECLEVEL=0` / `@SECLEVEL=1` / `NULL` / `RC4` / `3DES`, `checkServerIdentity: () => undefined` (hostname check disabled), Go `MinVersion: tls.VersionTLS10/11`, Python `ssl.PROTOCOL_TLSv1` / `minimum_version = TLSVersion.TLSv1`. Default severity P2; P1 if applied unconditionally to all outbound traffic.
 - Also flag as P1: hardcoded certificate paths that will break in another environment, and expired or self-signed certificates committed to the repo (paths only — do not print contents).
 
 RULES:
 - READ-ONLY. CITE EVIDENCE (file:line) for every finding and quote the offending line.
 - Never print private keys or secrets.
-- Severity: every verification bypass found is P0 by default (it is an exploitable hole). Downgrade to P1 only if it is provably unreachable dead code, and say exactly why.
+- Severity — classify every bypass by WHO turns it on. P0 must mean "exploitable as shipped"; inflating severity is a false alarm:
+  * P0: verification disabled UNCONDITIONALLY (hardcoded) or ON BY DEFAULT on a path carrying real traffic, credentials, or secrets — including `NODE_TLS_REJECT_UNAUTHORIZED=0` / `verify=False` set in committed code, env files, Dockerfiles, or CI.
+  * P1: hardcoded bypass confined to loopback/localhost or carrying no credentials (say why it is confined, with evidence); OR an end-user "ignore TLS errors" option that is OFF by default but has NO safe alternative next to it (no way to supply a custom CA / private root) — this pushes users into disabling verification.
+  * P2: an end-user opt-in option that is OFF by default AND a safe alternative exists next to it (custom CA field, documented NODE_EXTRA_CA_CERTS). Recommend a visible warning in the UI + a log line when it is enabled.
+  * NOT a finding: unit tests that only assert an option object is passed through, with no real network connection. Tests that actually connect with verification off = P1 (replace with mkcert).
+  * To claim "off by default" you MUST cite the file:line where the default is defined. Unproven default = treat as ON.
+  * Never write that a bypass is acceptable: every one appears in the report with its class and evidence. Group identical opt-in options into one row (list all file:line) instead of one row each.
+  * Downgrade anything to "dead code" only if it is provably unreachable, and say exactly why.
 - If the project has no code at all (configs only), say so explicitly in the report.
 
 OUTPUT FORMAT (write the report in Arabic; keep technical terms, paths, and code in English):
@@ -53,6 +61,8 @@ RULES OF ENGAGEMENT:
   * Docker images: `COPY internal-root-ca.crt /usr/local/share/ca-certificates/internal-root-ca.crt` + `RUN update-ca-certificates` + `ENV NODE_EXTRA_CA_CERTS=/usr/local/share/ca-certificates/internal-root-ca.crt`.
   * If a bypass existed for a corporate/proxy MITM box: install that proxy's root CA into the trust store instead.
   * mTLS clients: an https.Agent with cert + key + ca, `minVersion: 'TLSv1.3'`, `rejectUnauthorized: true`.
+  * End-user "ignore TLS errors" options (P1/P2 class): add a "custom CA certificate" field next to the option, passed as `ca` to the agent with `rejectUnauthorized: true`, so users can trust a self-signed device/private root instead of disabling verification. Keep the ignore option OFF by default, show a warning in the UI, and log a line whenever it is used.
+  * Partial weakening: remove legacy `minVersion` / `secureProtocol` / `SSL_OP_LEGACY_*` / low `@SECLEVEL`; if a legacy endpoint truly needs it, make it an explicit per-target opt-in, never a global default.
 - After fixing: list every changed file with a one-line summary, and give me the exact command to verify each fix.
 ```
 

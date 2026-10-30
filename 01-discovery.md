@@ -24,6 +24,7 @@ FIND AND MAP ALL OF THE FOLLOWING (search the whole repo thoroughly):
 7. Mobile apps (if any): iOS App Transport Security settings, Android network_security_config, Flutter/RN TLS plugins, certificate pinning code.
 8. Local development: mkcert, self-signed certificates, localhost HTTPS setups.
 9. mTLS / service-to-service: any place a client certificate is configured for internal calls.
+10. User-configurable TLS features (critical when the project is itself a TOOL — monitoring, proxies, HTTP/API clients, notification senders): every UI/config option that changes TLS behavior for end users ("ignore TLS errors", custom CA, client certificate fields...). For each: where its DEFAULT is defined (file:line), and whether a SAFE ALTERNATIVE exists next to it (a field to supply a custom CA / private root). Stage 02 needs this table to classify severity correctly.
 
 RULES:
 - READ-ONLY: do not modify, create, or delete anything. Do not run network commands.

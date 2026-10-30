@@ -12,25 +12,27 @@
 [![False alarms](https://img.shields.io/badge/false%20alarms-0-16a34a?style=flat-square)](#-validated-on-a-real-project)
 [![Works with](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20Cursor%20%7C%20Antigravity-7c3aed?style=flat-square)](#-quick-start)
 
-**[Quick start](#-quick-start) · [The 9 stages](#-the-nine-stages) · [Proof it works](#-validated-on-a-real-project) · [Live example](examples/gitea-audit-2026-10.md) · [العربية](README.ar.md)**
+**[Quick start](#-quick-start) · [The 9 stages](#-the-nine-stages) · [Proof it works](#-validated-on-real-projects) · [Live examples](examples/) · [العربية](README.ar.md)**
 
 </div>
 
 ---
 
-## 🧪 Validated on a real project
+## 🧪 Validated on real projects
 
-This pipeline was executed **end-to-end** against [Gitea](https://github.com/go-gitea/gitea) — a mature, widely-deployed codebase — including live network diagnostics:
+This pipeline was executed **end-to-end** against 3 world-class open-source projects across different ecosystems and architectures (Go, Node.js, and DevOps / Nginx Reverse Proxies) — including live network diagnostics:
 
-| | |
-|:---|:---|
-| 🎯 **True positives** | **3 / 3** — every finding was real |
-| 🚫 **False alarms** | **0** |
-| 🏷️ **Severity calibration** | **3 / 3** correct (hardening → P1, not inflated P0) |
-| 🕵️ **Caught what static analysis can't** | `dl.gitea.com` still accepting **TLS 1.0/1.1** in production |
-| 🧠 **Avoided a classic false positive** | Built-in ACME assumed legacy `autocert` → actually `certmagic` with full **ARI** support |
+| Project | Ecosystem / Role | True Positives | False Alarms | Key Finding | Full Audit Report |
+|---|---|:---:|:---:|---|:---:|
+| [**Gitea**](https://github.com/go-gitea/gitea) | Go (Git Platform) | **3 / 3** | **0** | `dl.gitea.com` still accepting **TLS 1.0/1.1** in production | [`gitea-audit-2026-10.md`](examples/gitea-audit-2026-10.md) |
+| [**Uptime Kuma**](https://github.com/louislam/uptime-kuma) | Node.js (Monitoring) | **4 / 4** | **0** | All 3 domains accept **TLS 1.0/1.1** + Docker trust store mismatch | [`uptime-kuma-audit-2026-10.md`](examples/uptime-kuma-audit-2026-10.md) |
+| [**Nginx Proxy Manager**](https://github.com/NginxProxyManager/nginx-proxy-manager) | DevOps / Nginx Proxy | **4 / 4** | **0** | Missing post-quantum `X25519MLKEM768` in templates + non-ARI renewal | [`nginx-proxy-manager-audit-2026-10.md`](examples/nginx-proxy-manager-audit-2026-10.md) |
 
-➡️ Read the full real-run output: [`examples/gitea-audit-2026-10.md`](examples/gitea-audit-2026-10.md)
+### 🎯 Why this precision matters
+- **Zero False Alarms (0 False Positives):** The pipeline intelligently distinguishes between user opt-in configuration ("ignore TLS" switches) and dangerous hardcoded bypasses.
+- **Catches what Static Analysis misses:** Reviewing code alone wouldn't reveal that production edge CDN endpoints accept deprecated TLS 1.0/1.1.
+- **Audits Infrastructure Tools Themselves:** Not only audits user apps, but uncovers architectural flaws in tools that generate TLS termination configs for thousands of servers.
+- **Strict October 2026 calibration:** Validated against ACME **ARI** (RFC 9773), Post-Quantum `X25519MLKEM768`, and 0-RTT replay protection.
 
 ## 🧭 How it works
 

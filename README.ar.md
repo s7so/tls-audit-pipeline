@@ -12,25 +12,27 @@
 [![False alarms](https://img.shields.io/badge/false%20alarms-0-16a34a?style=flat-square)](#-اتجرّب-على-مشروع-حقيقي)
 [![Works with](https://img.shields.io/badge/works%20with-Claude%20Code%20%7C%20Codex%20%7C%20Cursor%20%7C%20Antigravity-7c3aed?style=flat-square)](#-طريقة-الاستخدام)
 
-**[طريقة الاستخدام](#-طريقة-الاستخدام) · [المراحل التسعة](#-المراحل-التسعة) · [الدليل إنه شغال](#-اتجرّب-على-مشروع-حقيقي) · [مثال حي](examples/gitea-audit-2026-10.md) · [English](README.md)**
+**[طريقة الاستخدام](#-طريقة-الاستخدام) · [المراحل التسعة](#-المراحل-التسعة) · [الدليل إنه شغال](#-اتجرّب-على-مشاريع-حقيقية) · [أمثلة حية](examples/) · [English](README.md)**
 
 </div>
 
 ---
 
-## 🧪 اتجرّب على مشروع حقيقي
+## 🧪 اتجرّب على مشاريع حقيقية
 
-الـ pipeline اتنفذ **end-to-end** على [Gitea](https://github.com/go-gitea/gitea) — مشروع ناضج ومنشور على نطاق واسع — شامل اختبارات شبكة حية:
+الـ pipeline اتنفذ **end-to-end** على 3 مشاريع مفتوحة المصدر عالمية من بيئات ومعماريات مختلفة (Go، Node.js، و DevOps / Nginx Reverse Proxies) — شامل اختبارات شبكة حية:
 
-| | |
-|:---|:---|
-| 🎯 **نتايج حقيقية** | **3 / 3** — كل اكتشاف كان صح |
-| 🚫 **إنذارات كاذبة** | **0** |
-| 🏷️ **دقة التصنيف** | **3 / 3** صح (hardening → P1، مش P0 متضخم) |
-| 🕵️ **أمسك ما لا يراه الفحص الثابت** | `dl.gitea.com` لسه بيقبل **TLS 1.0/1.1** في الإنتاج |
-| 🧠 **تفادى إنذار كاذب كلاسيكي** | كان ممكن نفترض إن ACME المدمج `autocert` قديم → الحقيقة `certmagic` بدعم **ARI** كامل |
+| المشروع | البيئة / النوع | النتايج الحقيقية | الإنذارات الكاذبة | أهم اكتشاف | تقرير الفحص الكامل |
+|---|---|:---:|:---:|---|:---:|
+| [**Gitea**](https://github.com/go-gitea/gitea) | Go (Git Platform) | **3 / 3** | **0** | `dl.gitea.com` لسه بيقبل **TLS 1.0/1.1** في الإنتاج | [`gitea-audit-2026-10.md`](examples/gitea-audit-2026-10.md) |
+| [**Uptime Kuma**](https://github.com/louislam/uptime-kuma) | Node.js (Monitoring) | **4 / 4** | **0** | الـ 3 دومينات بيقبلوا **TLS 1.0/1.1** + خلل مخزن Docker | [`uptime-kuma-audit-2026-10.md`](examples/uptime-kuma-audit-2026-10.md) |
+| [**Nginx Proxy Manager**](https://github.com/NginxProxyManager/nginx-proxy-manager) | DevOps / Nginx Proxy | **4 / 4** | **0** | غياب التشفير الكمي `X25519MLKEM768` بالقوالب + تجديد بلا ARI | [`nginx-proxy-manager-audit-2026-10.md`](examples/nginx-proxy-manager-audit-2026-10.md) |
 
-➡️ اقرأ تقرير التشغيل الحقيقي كامل: [`examples/gitea-audit-2026-10.md`](examples/gitea-audit-2026-10.md)
+### 🎯 ليه الدقة دي مهمة؟
+- **صفر إنذارات كاذبة (0 False Alarms):** الـ pipeline قدر يفرّق بذكاء بين خيارات "Ignore TLS" اللي بيتحكم فيها المستخدم باختياره (Opt-in) وبين الثغرات الإجبارية (Hardcoded).
+- **أمسك ما تعجز عنه أدوات الفحص الثابت (Static Analysis):** فحص الكود لوحده مكانش هيشوف إن خوادم الـ CDN/Edge بتسمح بـ TLS 1.0/1.1 في بيئة الإنتاج الحقيقية!
+- **فحص أدوات الـ Infra نفسها:** لم يكتفِ بفحص التطبيقات العادية، بل كشف عيوب معمارية في أدوات تُنتج إعدادات TLS لآلاف السيرفرات (مثل غياب ARI وحزم الخوارزميات القديمة في قوالب NPM).
+- **معايرة دقيقة لقواعد 2026:** تأكد من دعم معيار **ARI** (RFC 9773)، والتشفير ما بعد الكم `X25519MLKEM768`، وحماية هجمات 0-RTT.
 
 ## 🧭 بيعمل إزاي كده؟
 

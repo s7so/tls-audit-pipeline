@@ -62,9 +62,13 @@ RULES OF ENGAGEMENT:
 openssl s_client -connect YOUR-DOMAIN:443 -tls1_3 -groups X25519MLKEM768:X25519
 # المطلوب تشوفه في المخرجات: Negotiated TLS1.3 group: X25519MLKEM768
 
-# الإصدارات القديمة لازم ترفض (المفروض يفشل الاتصال):
-openssl s_client -connect YOUR-DOMAIN:443 -tls1_1
+# الإصدارات القديمة لازم ترفض — من ناحية السيرفر مش من ناحيتك:
+openssl s_client -connect YOUR-DOMAIN:443 -servername YOUR-DOMAIN -tls1_1 -cipher "DEFAULT:@SECLEVEL=0"
+openssl s_client -connect YOUR-DOMAIN:443 -servername YOUR-DOMAIN -tls1   -cipher "DEFAULT:@SECLEVEL=0"
+# ✅ صح: alert من السيرفر (مثلاً "alert protocol version").
+# ❌ فشل: ظهر "Protocol: TLSv1.1" أو "Cipher is ECDHE-..." = السيرفر قبل الإصدار القديم.
+# ⚠️ لو ظهر "no protocols available" = العميل هو اللي رفض (OpenSSL 3.x) — النتيجة باطلة، مش نجاح.
 
-# الهيدرز الأمنية:
+# الهيدرز الأمنية (على Windows PowerShell استخدم curl.exe — كلمة curl لوحدها alias لـ Invoke-WebRequest):
 curl -sI https://YOUR-DOMAIN | grep -iE "strict-transport|alt-svc"
 ```

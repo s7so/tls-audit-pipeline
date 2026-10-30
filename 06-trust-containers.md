@@ -23,7 +23,7 @@ FIND AND ASSESS:
 - Every Dockerfile / compose file / k8s manifest / CI config: where CA certificates come from, and whether NODE_EXTRA_CA_CERTS / SSL_CERT_FILE / REQUESTS_CA_BUNDLE are set where the runtime needs them.
 - Any key material committed to the repo (paths only — never print contents).
 - The localhost HTTPS setup for development (mkcert? self-signed? plain http?).
-- Mismatches: e.g. the CA is installed in the system store but the runtime is Node (which ignores it).
+- Mismatches (flag as P1): e.g. custom/internal root CAs or newer roots (like Let's Encrypt Gen Y) are installed via `update-ca-certificates` into the OS system store, but the runtime is Node.js (which ignores the OS store unless `NODE_EXTRA_CA_CERTS` is set) or Python tools that bundle certifi without `REQUESTS_CA_BUNDLE`/`SSL_CERT_FILE`. This silent failure causes apps to fail TLS checks and pushes users into disabling verification!
 
 RULES:
 - READ-ONLY. Evidence = file:line. Never print key contents.
