@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="250" viewBox="0 0 1240 250" role="img" aria-label="Pipeline flow: stages 01 to 09 from discovery to final verdict">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0 L10 5 L0 10 z" fill="#475569"/>
+    </marker>
+    <linearGradient id="finalG" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#14532d"/>
+      <stop offset="1" stop-color="#166534"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="1240" height="250" rx="16" fill="#0b1220"/>
+
+  <!-- Row 1 : stages 01-05 -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <!-- 01 -->
+    <rect x="20" y="42" width="196" height="64" rx="12" fill="#0891b2" fill-opacity="0.14" stroke="#0891b2" stroke-opacity="0.75"/>
+    <rect x="30" y="57" width="34" height="34" rx="9" fill="#0891b2"/>
+    <text x="47" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">01</text>
+    <text x="74" y="69" font-size="17" font-weight="700" fill="#e2e8f0">Discovery</text>
+    <text x="74" y="90" font-size="11.5" fill="#94a3b8">Map TLS touchpoints</text>
+
+    <!-- 02 -->
+    <rect x="271" y="42" width="196" height="64" rx="12" fill="#dc2626" fill-opacity="0.13" stroke="#dc2626" stroke-opacity="0.75"/>
+    <rect x="281" y="57" width="34" height="34" rx="9" fill="#dc2626"/>
+    <text x="298" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">02</text>
+    <text x="325" y="69" font-size="17" font-weight="700" fill="#e2e8f0">Code audit</text>
+    <text x="325" y="90" font-size="11.5" fill="#94a3b8">Bypass patterns</text>
+
+    <!-- 03 -->
+    <rect x="522" y="42" width="196" height="64" rx="12" fill="#ea580c" fill-opacity="0.13" stroke="#ea580c" stroke-opacity="0.75"/>
+    <rect x="532" y="57" width="34" height="34" rx="9" fill="#ea580c"/>
+    <text x="549" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">03</text>
+    <text x="576" y="69" font-size="17" font-weight="700" fill="#e2e8f0">Server config</text>
+    <text x="576" y="90" font-size="11.5" fill="#94a3b8">Nginx &#183; Caddy &#183; TLS 1.3</text>
+
+    <!-- 04 -->
+    <rect x="773" y="42" width="196" height="64" rx="12" fill="#d97706" fill-opacity="0.13" stroke="#d97706" stroke-opacity="0.75"/>
+    <rect x="783" y="57" width="34" height="34" rx="9" fill="#d97706"/>
+    <text x="800" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">04</text>
+    <text x="827" y="69" font-size="17" font-weight="700" fill="#e2e8f0">Certificates</text>
+    <text x="827" y="90" font-size="11.5" fill="#94a3b8">ACME &#183; ARI &#183; renewal</text>
+
+    <!-- 05 -->
+    <rect x="1024" y="42" width="196" height="64" rx="12" fill="#7c3aed" fill-opacity="0.14" stroke="#7c3aed" stroke-opacity="0.75"/>
+    <rect x="1034" y="57" width="34" height="34" rx="9" fill="#7c3aed"/>
+    <text x="1051" y="80" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">05</text>
+    <text x="1078" y="69" font-size="17" font-weight="700" fill="#e2e8f0">Internal mTLS</text>
+    <text x="1078" y="90" font-size="11.5" fill="#94a3b8">SPIFFE &#183; step-ca</text>
+  </g>
+
+  <!-- arrows row 1 -->
+  <g stroke="#475569" stroke-width="2">
+    <line x1="218" y1="74" x2="263" y2="74" marker-end="url(#arr)"/>
+    <line x1="469" y1="74" x2="514" y2="74" marker-end="url(#arr)"/>
+    <line x1="720" y1="74" x2="765" y2="74" marker-end="url(#arr)"/>
+    <line x1="971" y1="74" x2="1016" y2="74" marker-end="url(#arr)"/>
+  </g>
+
+  <!-- snake connector 05 -> 06 -->
+  <polyline points="1122,110 1122,130 118,130 118,150" fill="none" stroke="#475569" stroke-width="2" marker-end="url(#arr)"/>
+
+  <!-- Row 2 : stages 06-09 + final -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif">
+    <!-- 06 -->
+    <rect x="20" y="156" width="196" height="64" rx="12" fill="#0d9488" fill-opacity="0.14" stroke="#0d9488" stroke-opacity="0.75"/>
+    <rect x="30" y="171" width="34" height="34" rx="9" fill="#0d9488"/>
+    <text x="47" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">06</text>
+    <text x="74" y="183" font-size="17" font-weight="700" fill="#e2e8f0">Trust stores</text>
+    <text x="74" y="204" font-size="11.5" fill="#94a3b8">Docker &#183; CI &#183; mkcert</text>
+
+    <!-- 07 -->
+    <rect x="271" y="156" width="196" height="64" rx="12" fill="#db2777" fill-opacity="0.13" stroke="#db2777" stroke-opacity="0.75"/>
+    <rect x="281" y="171" width="34" height="34" rx="9" fill="#db2777"/>
+    <text x="298" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">07</text>
+    <text x="325" y="183" font-size="17" font-weight="700" fill="#e2e8f0">Mobile pinning</text>
+    <text x="325" y="204" font-size="11.5" fill="#94a3b8">self-skips if N/A</text>
+
+    <!-- 08 -->
+    <rect x="522" y="156" width="196" height="64" rx="12" fill="#2563eb" fill-opacity="0.14" stroke="#2563eb" stroke-opacity="0.75"/>
+    <rect x="532" y="171" width="34" height="34" rx="9" fill="#2563eb"/>
+    <text x="549" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">08</text>
+    <text x="576" y="183" font-size="17" font-weight="700" fill="#e2e8f0">Live diagnostics</text>
+    <text x="576" y="204" font-size="11.5" fill="#94a3b8">openssl &#183; curl on real hosts</text>
+
+    <!-- 09 -->
+    <rect x="773" y="156" width="196" height="64" rx="12" fill="url(#finalG)" stroke="#22c55e" stroke-opacity="0.9"/>
+    <rect x="783" y="171" width="34" height="34" rx="9" fill="#16a34a"/>
+    <text x="800" y="194" text-anchor="middle" font-size="16" font-weight="700" fill="#f8fafc">09</text>
+    <text x="827" y="183" font-size="17" font-weight="700" fill="#dcfce7">Final report</text>
+    <text x="827" y="204" font-size="11.5" fill="#86efac">P0 / P1 / P2 plan</text>
+
+    <!-- verdict card -->
+    <rect x="1024" y="156" width="196" height="64" rx="12" fill="#052e16" stroke="#22c55e" stroke-width="2" stroke-dasharray="6 4"/>
+    <text x="1122" y="184" text-anchor="middle" font-size="18" font-weight="700" fill="#4ade80">&#127919; Verdict</text>
+    <text x="1122" y="204" text-anchor="middle" font-size="11.5" fill="#86efac">production-ready? yes / no / with-conditions</text>
+  </g>
+
+  <!-- arrows row 2 -->
+  <g stroke="#475569" stroke-width="2">
+    <line x1="218" y1="188" x2="263" y2="188" marker-end="url(#arr)"/>
+    <line x1="469" y1="188" x2="514" y2="188" marker-end="url(#arr)"/>
+    <line x1="720" y1="188" x2="765" y2="188" marker-end="url(#arr)"/>
+    <line x1="971" y1="188" x2="1016" y2="188" marker-end="url(#arr)"/>
+  </g>
+</svg>

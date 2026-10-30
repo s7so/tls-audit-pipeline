@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-label="TLS Audit Pipeline — October 2026 Edition">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b1220"/>
+      <stop offset="0.55" stop-color="#101a30"/>
+      <stop offset="1" stop-color="#0d2137"/>
+    </linearGradient>
+    <linearGradient id="lock" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#34d399"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.16" cy="0.5" r="0.75">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.16"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="0.9" cy="0.2" r="0.6">
+      <stop offset="0" stop-color="#818cf8" stop-opacity="0.10"/>
+      <stop offset="1" stop-color="#818cf8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bg)"/>
+  <rect width="1200" height="300" fill="url(#glow)"/>
+  <rect width="1200" height="300" fill="url(#glow2)"/>
+
+  <!-- faint circuit lines -->
+  <g stroke="#24365a" stroke-width="1" opacity="0.5">
+    <path d="M0 40 H340 V96 H560" fill="none"/>
+    <path d="M1200 250 H980 V196 H820" fill="none"/>
+    <path d="M640 300 V262 H880" fill="none"/>
+  </g>
+  <g fill="#2b4166">
+    <circle cx="340" cy="40" r="3"/><circle cx="560" cy="96" r="3"/>
+    <circle cx="980" cy="250" r="3"/><circle cx="820" cy="196" r="3"/>
+    <circle cx="880" cy="262" r="3"/>
+  </g>
+
+  <!-- faint watermark right -->
+  <text x="1172" y="248" text-anchor="end" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="132" font-weight="800" fill="#22d3ee" opacity="0.06">1.3</text>
+
+  <!-- shield / lock tile -->
+  <g transform="translate(60,74)">
+    <rect x="0" y="0" width="152" height="152" rx="34" fill="#0c231b" stroke="url(#accent)" stroke-width="2"/>
+    <path d="M76 14 L128 32 V76 C128 108 106 126 76 138 C46 126 24 108 24 76 V32 Z"
+          fill="#0f2f24" stroke="#34d399" stroke-width="2.5"/>
+    <rect x="54" y="70" width="44" height="34" rx="8" fill="url(#lock)"/>
+    <path d="M62 70 V60 a14 14 0 0 1 28 0 V70" fill="none" stroke="url(#lock)" stroke-width="8" stroke-linecap="round"/>
+    <circle cx="76" cy="84" r="5" fill="#04241a"/>
+    <rect x="73.6" y="84" width="4.8" height="11" rx="2.4" fill="#04241a"/>
+  </g>
+
+  <!-- title block -->
+  <text x="252" y="118" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="58" font-weight="700" fill="#f8fafc" letter-spacing="1.5">TLS AUDIT PIPELINE</text>
+  <rect x="254" y="134" width="236" height="4" rx="2" fill="url(#accent)"/>
+  <text x="252" y="170" font-family="Segoe UI, Helvetica, Arial, sans-serif"
+        font-size="21" fill="#94a3b8">Turn any AI code editor into a TLS/SSL security auditor</text>
+
+  <!-- chips -->
+  <g font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="14" font-weight="600">
+    <rect x="252" y="196" width="150" height="34" rx="17" fill="#0c4a6e"/>
+    <text x="327" y="218" text-anchor="middle" fill="#7dd3fc">OCTOBER 2026</text>
+
+    <rect x="414" y="196" width="104" height="34" rx="17" fill="#065f46"/>
+    <text x="466" y="218" text-anchor="middle" fill="#6ee7b7">9 STAGES</text>
+
+    <rect x="530" y="196" width="162" height="34" rx="17" fill="#065f46"/>
+    <text x="611" y="218" text-anchor="middle" fill="#6ee7b7">0 FALSE ALARMS</text>
+
+    <rect x="704" y="196" width="170" height="34" rx="17" fill="#4c1d95"/>
+    <text x="789" y="218" text-anchor="middle" fill="#c4b5fd">PQC &#183; ARI &#183; HSTS</text>
+  </g>
+
+  <!-- bottom accent line -->
+  <rect x="0" y="292" width="1200" height="8" fill="url(#accent)"/>
+</svg>
